@@ -22,7 +22,7 @@ def count_zeros(number: int, R: int):
  
     return res
 
-def code_uniform_midtread(number, R):
+def code_uniform_midtread(number: int, R: int):
     if number >= 0:
         signal = 1
     else:
@@ -34,7 +34,7 @@ def code_uniform_midtread(number, R):
     
     return signal * output
 
-def decode_uniform_midtread(code,R):
+def decode_uniform_midtread(code: int, R: int):
     signal = 2 * int(code & 2 ** (R - 1) == 0) - 1 
     number_abs = 2 * abs(code) / (2 ** R - 1)
     return signal * number_abs
@@ -42,7 +42,7 @@ def decode_uniform_midtread(code,R):
 def get_scale(x):
     return 2 ** (-count_zeros(code_uniform_midtread(x , 6), 6) + 1)
 
-class BibsCodec():
+class DubiCodec():
 
     def __init__(
         self,
@@ -56,7 +56,11 @@ class BibsCodec():
         self.n_bits_mantissa_b = n_bits_mantissa_b
         self.n_bits_scale = n_bits_scale
 
-    def block_fp_quantizer(samples_b, n_bits_mantissa_b, n_bits_scale: int = 4):
+    def block_fp_quantizer(
+        samples_b: np.ndarray,
+        n_bits_mantissa_b: int,
+        n_bits_scale: int = 4
+    ):
         N_b = samples_b.shape[0]
         R_m = int(n_bits_mantissa_b // N_b)
         r = int(n_bits_mantissa_b % N_b)
